@@ -10,9 +10,7 @@
 
     <section class="menu">
       <h2>Menu</h2>
-      <MenuItem v-for="item in simpleMenu" 
-        :addToShoppingCart="addToShoppingCart" 
-        :modelValue="item.quantity"
+      <MenuItem v-for="item in simpleMenu"   
         :inStock="item.inStock" 
         :image="item.image" 
         :name="item.name" 
@@ -26,69 +24,27 @@
     </aside>
 
     <footer class="footer">
-      <p>Copyright {{ restaurantName }} 2020</p>
+      <p> {{ $store.getters.copyright }}</p>
     </footer>
   </div>  
 </template>
 
 <script>
 import MenuItem from "../components/MenuItem.vue"
+import {mapState} from 'vuex'
 
 export default {
   name: "HomeView",
   components: {
     MenuItem,
   },
-  data() {
-    return {
-      restaurantName: "La belle vue",
-      shoppingCart: 0,
-      simpleMenu: [
-        {
-          name: "Croissant",
-          image: {
-            source: "./images/croissant.jpg",
-            alt: "Un croissant",
-          },
-          inStock: true,
-          quantity: 1,
-          price: 2.99,
-        },
-        {
-          name: "Baguette de pain",
-          image: {
-            source: "./images/french-baguette.jpeg",
-            alt: "Quatre baguettes de pain",
-          },
-          inStock: true,
-          quantity: 3,
-          price: 3.99,
-        },
-        {
-          name: "Éclair",
-          image: {
-            source: "./images/eclair.jpg",
-            alt: "Éclair au chocolat",
-          },
-          inStock: false,
-          quantity: 1,
-          price: 4.99,
-        }
-      ]
-    }
-  },
-
   computed: {
-    copyright() {
-      const currentYear = new Date().getFullYear();
-
-      return `Copyright ${this.restaurantName} ${currentYear}`;
+    ...mapState({
+      restaurantName : "restaurantName",
+      shoppingCart : "shoppingCart",
+      simpleMenu : "simpleMenu"
     }
-  },
-  methods: {
-    addToShoppingCart(amount) {
-      this.shoppingCart += amount
-    }
+    )
   }
 }
 </script>

@@ -9,11 +9,9 @@
             <p v-if="inStock">En stock</p>
             <p v-else>En rupture de stock</p>
             <div>
-                <label for="add-item-quantity">Quantité : </label>
+                <label for="add-item-quantity">Quantité :</label>
                 <input id="add-item-quantity" v-model="quantity" type="number" />
-                <button @click="addToShoppingCart(quantity)">
-                    Ajouter au panier d'achat
-                </button>
+                <button @click="updateShoppingCart(quantity)"> Ajouter au panier d'achat </button>
             </div>
         </div>
     </div>
@@ -21,15 +19,35 @@
 
 
 <script>
+import {mapActions} from "vuex"
 export default {
     name: "MenuItem",
-    props: ["addToShoppingCart", "image", "inStock", "price", "modelValue", "name",],
 
-    emits: ['update:modelValue'],
+    props: {
+        image: {
+            type: Object,
+            required: true
+        },
+        inStock: {
+            type: Boolean,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        },
+        modelValue: {
+            type: Number,
+            default: 1
+        },
+        name: {
+            type: String,
+            required: true
+        },
+    },
+
     methods: {
-        changePageTitle(title) {
-            this.$emit('update:modelValue', title)
-        }
+        ...mapActions (["updateShoppingCart"])
     },
 
     data() {
